@@ -1,0 +1,18 @@
+{%load static%}
+
+{%for message in messages%}
+<div class="messages alert alert-{{message.tags}} w-100 text-center ">
+  {{message}}
+</div>
+{%endfor%}
+
+
+
+<script src="{%static 'js/jquery-3.7.1.min.js'%}"></script>
+<script>
+  window.setTimeout(function() {
+   $(".messages").fadeTo(400, 0).slideUp(400, function(){
+     $(this).remove();
+  });
+}, 4000);
+</script>

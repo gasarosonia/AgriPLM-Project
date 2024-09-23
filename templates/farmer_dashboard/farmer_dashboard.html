@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+{%load static%}
+{%load crispy_forms_tags %}
+{%load widget_tweaks%}
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="{%static 'css/bootstrap.css'%}"/>
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}"/>
+    <!-- <link rel="stylesheet" href="{%static 'css/farmer_css/team-2.css'%}"> -->
+    <link rel="stylesheet" href="{%static 'css/global.css'%}">
+    <link rel="stylesheet" href="{%static 'css/farmer_css/farmer_home_dashboard.css'%}" />
+
+    <style>
+      .shado{
+        box-shadow: 0 8px 6px rgb(76, 162, 76);
+      }
+      .shado1{
+        box-shadow: 0 8px 6px rgb(146, 224, 146);
+      }
+      .shado2{
+        box-shadow: 0 8px 6px rgb(56, 143, 86);
+      }
+      .shado3{
+        box-shadow: 0 8px 6px rgb(224, 88, 80);
+      }
+      .shado4{
+        box-shadow: 0 8px 6px rgb(166, 164, 164);
+      }
+    </style>
+  </head>
+  <body style="font-family: Arial, Helvetica, sans-serif;">
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+      <symbol id="home" viewBox="0 0 16 16">
+        <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+      </symbol>
+      <symbol id="speedometer2" viewBox="0 0 16 16">
+        <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+        <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
+      </symbol>
+      <symbol id="table" viewBox="0 0 16 16">
+        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+      </symbol>
+      <symbol id="people-circle" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+      </symbol>
+      <symbol id="grid" viewBox="0 0 16 16">
+        <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
+      </symbol>
+   </svg>
+
+    <div class="container-fluid">
+      <div class="row">
+        <!-- First column ============== VERTICAL NAVBAR-->
+        <div class="col-md-3 h-100 sticky-lg-top d-flex flex-column flex-shrink-0 p-3 bg-light mt-1" style="font-size:30px; border-right: 1px groove rgb(142, 140, 140);box-shadow: 0 8px 6px rgb(134, 230, 134);">
+          <a href="{%url 'farmer_user_profile'%}" class="d-flex align-items-center mb-4 mb-md-0 me-md-auto link-dark text-decoration-none">
+            {%if user_profile.photo%}
+              <img src="{{user_profile.photo.url}}" alt="" width="50" height="50" class="rounded-circle me-2">
+            {%else%}
+              <img src="{%static 'img/public/11@2x.png'%}" alt="" width="32" height="32" class="rounded-circle me-2">
+            {%endif%}
+            <span class="fs-4">{{user.first_name}} {{user.last_name}}</span>
+          </a>
+
+        <ul class="nav flex-column mb-auto mt-4">
+          <!-- dashboard button -->
+          <li>
+            <a href="{%url 'farmer_dashboard'%}" 
+            class="nav-link link-dark shado 
+            {%if request.resolver_match.url_name == 'farmer_dashboard' or request.resolver_match.url_name == 'dashboard'%} 
+              bg-success text-light 
+            {%endif%}">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+              Dashboard
+            </a>
+          </li>
+          <!-- product button -->
+          <li>
+            <a href="{%url 'farmer_user_products'%}" 
+            class="nav-link link-dark shado 
+            {%if request.resolver_match.url_name == 'farmer_user_products' or request.resolver_match.url_name == 'farmer_product_details'%}
+              bg-success text-light 
+            {%endif%}">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+              Products
+            </a>
+          </li>
+          <!-- prediction button -->
+          <li>
+            <a href="{%url 'farmer_yield_predict'%}" 
+            class="nav-link link-dark shado 
+            {%if request.resolver_match.url_name == 'farmer_yield_predict' or request.resolver_match.url_name == 'predict_single_yield_results' %}
+             bg-success text-light 
+            {%endif%}">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+              Predictions
+            </a>
+          </li>
+          <!-- sustainability management button -->
+          <li>
+            <a href="{%url 'farmer_sustain_manage'%}" 
+            class="nav-link link-dark shado2 mt-2 
+            {%if request.resolver_match.url_name == 'farmer_sustain_manage'%} 
+              bg-success text-light
+            {%endif%}" style="font-size: 28px;">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+              Substainability Management
+            </a>
+          </li>
+          <!-- farmer regulatory compliance -->
+           <li>
+            <a href="{%url 'farmer_regulatory_compliance'%}" 
+            class="nav-link link-dark shado2 mt-2 
+            {%if request.resolver_match.url_name == 'farmer_regulatory_compliance'%}
+             bg-success text-light
+            {%endif%}">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+              Regulatory Compliance
+            </a>
+          </li>
+          <li>
+            <a href="{%url 'farmer_user_profile'%}" 
+            class="nav-link link-dark shado {%if request.resolver_match.url_name == 'farmer_user_profile'%} bg-success text-light {%endif%}">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+              User Profile
+            </a>
+          </li>
+        </ul>
+        <a href="{%url 'logout'%}" class="text-danger shado3" style="text-decoration: none; color:black; margin-top:100%;">
+          <img  class="usign-out-alt-icon" loading="lazy" alt=""src="{%static 'img/public/usignoutalt.svg' %}"/> Logout
+        </a>
+     </div>
+     <!-- ================ END VERTICAL NAVBAR ======= -->
+
+     <!-- Second column -->
+      <!-- First welcome page       ======= DASHBOARD PAGE -->
+      {%if page == 'farmer_dash'%}
+      <div class="col-md-9">
+        <div class="container mt-2">
+          <!-- Top title -->
+            <div class="d-flex justify-content-between sticky-lg-top bg-light p-2 mb-4 shado" style="border-radius:10px;">
+              <h1 class="text-success">REAL TIME ANALYTICS</h1>
+              <h3>AgriPLM</h3>
+            </div>
+            <!-- Welcome messages -->
+            <div class="row">
+              <h2 class="col-md-6 mb-4 ">WELCOME FARMER {{user.last_name |upper}}</h2>
+              <div class="col-md-2"> </div>
+              <div class="col-md-4">{%include 'messages/messages.html'%}</div>
+            </div>
+            <!-- status -->
+            <div class="row col-10 shado4 p-3" style="border-radius: 25px; border:1px groove black;">
+                    <div class="col-md-4 row" style="border-right: 1px groove black;">
+                          <div class="col">
+                            <img src="{%static 'img/public/crop.png'%}" alt="">
+                          </div>
+                          <div class="col">
+                            <div class="col-12 text-secondary">Total Estimated Yield</div>
+                            <div class="col-12"><h6><b>{{my_total_yields}} Tons</b></h6></div>
+                          </div>
+                    </div>
+                    <div class="col-md-4 row" style="border-right: 1px groove black;">
+                      <div class="col px-3">
+                          <img src="{%static 'img/public/group-10-21.svg'%}" alt="">
+                        </div>
+                        <div class="col">
+                          <div class="col-12 text-success">Active Projects</div>
+                          <div class="col-12"><h4 class="mt-2"><b>{{my_active_projects}}</b></h4></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 row">
+                        <div class="col px-3">
+                          <img src="{%static 'img/public/group-10-21.svg'%}" alt="">
+                        </div>
+                        <div class="col">
+                          <div class="col-12 text-danger">Closed Projects</div>
+                          <div class="col-12"><h4 class="mt-2"><b>{{my_closed_projetcs}}</b></h4></div>
+                        </div>
+                    </div>
+            </div>
+
+            <!-- project report details -->
+            <div class="row mt-5">
+              <h3 class="text-success">MY PROJECTS REPORT</h3>
+              {%if yield_data%}
+              <div class="w-100" style="overflow-x: scroll;">
+               <table class="table table-hover mt-3 table_pred shado">
+                  <thead>
+                    <th class="bg-success text-light">Project_ID</th>
+                    <th class="bg-success text-light">Cell</th>
+                    <th class="bg-success text-light">Nitrogen</th>
+                    <th class="bg-success text-light">Phosphorus</th>
+                    <th class="bg-success text-light">Potassium</th>
+                    <th class="bg-success text-light">Ph</th>
+                    <th class="bg-success text-light">Rainfall</th>
+                    <th class="bg-success text-light">Temperature</th>
+                    <th class="bg-success text-light">Crop</th>
+                    <th class="bg-success text-light">Fertilizer</th>
+                    <th class="bg-success text-light">Fertilizer Amount (Kgs)</th>
+                    <th class="bg-success text-light">Date of Yield Pred</th>
+                    <th class="bg-success text-light">Estimated Yield (Tons)</th>
+                    <th class="bg-success text-light">Project Status</th>
+                  </thead>
+                  <tbody>
+                    {%for data in yield_data%}
+                    <tr>
+                      <td>{{data.id}}</td>
+                      <td>{{data.crop_fert_pred.cell}}</td>
+                      <td>{{data.crop_fert_pred.nitrogen}}</td>
+                      <td>{{data.crop_fert_pred.phosphorus}}</td>
+                      <td>{{data.crop_fert_pred.potassium}}</td>
+                      <td>{{data.crop_fert_pred.ph}}</td>
+                      <td>{{data.crop_fert_pred.rainfall}}</td>
+                      <td>{{data.crop_fert_pred.temperature}}</td>
+                      <td>{{data.crop_fert_pred.predicted_crop}}</td>
+                      <td>{{data.crop_fert_pred.predicted_fertilizer}}</td>
+                      <td>{{data.fertilizer_amount}}</td>
+                      <td>{{data.yield_pred_date}}</td>
+                      <td>{{data.predicted_yield}}</td>
+                      {%if data.is_project_active%}
+                      <td class="text-success shado">Active</td>
+                      <!-- This will deactivate or close the project -->
+                      <td><a href="{%url 'close_active_projects' data.id%}" class="btn btn-danger">Close</a></td>
+                      {%else%}
+                      <td class="text-danger">Closed</td>
+                      {%endif%}
+                      
+                    </tr>
+                    {%endfor%}
+                  </tbody>
+                </table>  
+              </div>
+              {%else%}
+              <h1>No available projects</h1>
+              {%endif%}
+            </div>
+        <!-- ========= Welcome page end  -->
+          </div>
+
+        </div>
+
+      <!-- Second page ========== PRODUCTS =================-->
+       {%elif page == 'user_products'%}
+       <div class="col-md-9">
+        <div class="container-fluid">
+          <div class="row mt-3">
+            <div class="col-md-9">
+              <div class="d-flex justify-content-between mb-2 shado px-2" style="border-radius: 10px;">
+                <h1 class="text-success">PRODUCTS</h1>
+                <h3>AgriPLM</h3>
+              </div>
+            </div>
+          </div> 
+
+          <div class="row">
+            <div class="col-md-9">
+              <div class="row mt-3">
+                {%if crops%}
+                    <!-- Crop Card  -->
+                     {%for crop in crops%}
+                    <div class="col-lg-4 col-md-6 mt-2">
+                      <a href="{%url 'farmer_product_details' crop.id%}" class="card p-3 text-center mt-2  shado4" style="border: none; border-radius:20px; height:100%; text-decoration:none;">
+                        <img src="{{crop.crop_image.url}}" class="card-img-top h-100" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">{{crop.crop_name}}</h5>
+                          <p class="card-text">{{crop.description}}</p>
+                        </div>
+                      </a>
+                    </div>
+                    {%endfor%}
+                {%else%}
+                <h2>No available crops!</h2>
+                {% endif%}
+              </div>
+              <div>
+                <h1 class="mt-5"><b>PRODUCT LIFECYCLE</b></h1>
+                <img class="w-100 mt-3" src="{%static 'img/product_lifecycle.png'%}" alt="">
+              </div>
+              
+            </div>
+
+            <div class="col-md-3">
+               <!-- ====== Small right card -->
+            </div>
+          </div>
+        </div>
+       </div>
+
+       <!-- ================================================ PRODUCT DETAILS | PRODUCT LIFE-CYCLE MANAGEMENT-->
+        {%elif page == 'product_details'%}
+       <div class="col-md-9">
+          <div class="container mt-3">
+              <div class="d-flex justify-content-between mb-5 shado">
+              <h1 class="text-success px-2">PRODUCT LIFE-CYCLE MANAGEMENT</h1>
+              <h3>AgriPLM</h3>
+            </div>
+            <div class="row col-12 shado4 p-2" style="border-radius: 15px;">
+              <div class="col-md-2">
+                <img src="{{crop.crop_image.url}}" class="card-img-top" alt="..." style="height: 100px; width:150px">
+              </div>
+              <div class="col-md-9 py-2">
+                <h2>{{crop.crop_name}}</h2>
+                <p>{{crop.description}}</p>
+              </div>
+            </div>             
+              <!-- Product Lifecycle management -->
+               <div class="d-flex flex-row mt-4 row">
+                <!-- Planting time and fertilizer -->
+                  <div class="card border-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header"></div>
+                    <div class="card-body text-success">
+                      <!-- planting -->
+                     <div class="card border-success mb-3" style="max-width: 18rem;">
+                        <div class="card-header">1. Planting</div>
+                        <div class="card-body text-success">
+                          <p class="card-text">{{crop.planting_time}}</p>
+                        </div>
+                     </div>
+                     <!-- Fertilizer -->
+                     <div class="card border-success mb-3" style="max-width: 18rem;">
+                      <div class="card-header">2. Fertilizer/ Pesticide</div>
+                      <div class="card-body text-success">
+                        <p class="card-text">{{crop.fertilizer}}</p>
+                      </div>
+                     </div>
+                    </div>
+                  </div>
+                  <!-- Irrigation -->
+                  <div class="card border-success mb-3 col-md-6" style="max-width: 18rem;">
+                    <div class="card-header">3. Irrigation</div>
+                    <div class="card-body text-success">
+                      <p class="card-text">{{crop.irrigation}}</p>
+                    </div>
+                  </div>
+                  <!-- Harvest -->
+                  <div class="card border-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header">4. Harvest</div>
+                    <div class="card-body text-success">
+                      <p class="card-text">{{crop.harvest}}</p>
+                    </div>
+                  </div>
+                  <!-- Cleaning / Sorting -->
+                  <div class="card border-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header">5. Cleaning/ Sorting</div>
+                    <div class="card-body text-success">
+                      <p class="card-text">{{crop.cleaning}}</p>
+                    </div>
+                  </div>
+                  <!-- Storage -->
+                  <div class="card border-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header">6. Storage</div>
+                    <div class="card-body text-success">
+                      <p class="card-text">{{crop.storage}}</p>
+                    </div>
+                  </div>
+                  <!-- Transportation -->
+                  <div class="card border-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header">7. Transportation/Distribution</div>
+                    <div class="card-body text-success">
+                      <p class="card-text">{{crop.transportation}}</p>
+                    </div>
+                  </div>
+                  <!-- Consumption and End ol life -->
+                  <div class="card border-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header"></div>
+                    <div class="card-body text-success">
+                      <!-- Consumption -->
+                     <div class="card border-success mb-3" style="max-width: 18rem;">
+                        <div class="card-header">8. Consumption</div>
+                        <div class="card-body text-success">
+                          <p class="card-text">{{crop.consumption}}</p>
+                        </div>
+                     </div>
+                     <!-- End of life concideration -->
+                     <div class="card border-success mb-3" style="max-width: 18rem;">
+                      <div class="card-header">9. End-Of-Life Consideration</div>
+                      <div class="card-body text-success">
+                        <p class="card-text">{{crop.end_of_life}}</p>
+                      </div>
+                     </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+       </div>
+
+       <!-- Third page ========== YIELD PREDICTION =============== -->
+        {%elif page == 'yield_prediction'%}
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-7">
+              <div class="d-flex justify-content-between mb-1 shado" style="border-radius: 10px;">
+              <h1 class="text-success">CROP YIELD PREDICTION</h1>
+              <h3>AgriPLM</h3>
+            </div>
+            </div>
+          </div>
+          <section class="row mt-5">
+					{%include 'messages/messages.html'%}
+					<div class="col-md-2"></div>
+					<div class="col-md-7">
+            {%if user_info.cell != None %}
+						  <h3 class="py-4 text-light text-center shado4 mt-1 mb-4 bg-secondary">RECOMMENDED CROP AND FERTILIZER IN {{user_info.cell | upper}}</h3>
+              {%for info in crop_fert_pred_info%}
+              <div class="shado p-3">                
+                <div class="row g-3">
+                    <!-- Recommended crop -->
+                  <div class="col-sm-4">
+                    <label class="form-label">RECOMMENDED CROP:</label>
+                    <input type="text" class="form-control bg-success text-light" value="{{info.predicted_crop}}" disabled/>
+                  </div>
+                  <!-- Recommended fertilizer  -->
+                  <div class="col-sm-4">
+                    <label class="form-label">RECOMMENDED FERTILIZER:</label>
+                    <input type1="text"  class="form-control bg-danger text-light" value="{{info.predicted_fertilizer}}" disabled/>
+                  </div>
+
+                  <!-- Recommended fertilizer  -->
+                  <div class="col-sm-4">
+                    <label class="form-label">Lastest Update:</label>
+                    <input type="text" class="form-control" value="{{info.date}}" disabled/>
+                  </div>
+
+                  <hr>
+                  <h4 class="text-success">SOIL MEASUREMENTS:</h4>
+                    <!-- Rain Fall -->
+                  <div class="col-sm-4">
+                    <label class="form-label">Rain Fall (mm):</label>
+                    <input type="number" class="form-control" value="{{info.rainfall}}" disabled/>
+                  </div>
+                  <!-- Temperature  -->
+                  <div class="col-sm-4">
+                    <label class="form-label">Temperature:</label>
+                    <input type="number" class="form-control" value="{{info.temperature}}" disabled/>
+                  </div>
+                  <!-- Netrogen -->
+                  <div class="col-sm-4">
+                    <label class="form-label">Nitrogen (N):</label>
+                    <input type="number" class="form-control" value="{{info.nitrogen}}" disabled/>
+                  </div>
+                  
+                  <!-- Phosphorus -->
+                  <div class="col-sm-4">
+                    <label class="form-label">Phosphorus (P):</label>
+                    <input type="number" class="form-control" value="{{info.phosphorus}}" disabled/>
+                  </div>
+                  <!-- Potassium -->
+                  <div class="col-sm-4">
+                    <label class="form-label">Potassium (K):</label>
+                    <input type="number" class="form-control" value="{{info.potassium}}" disabled/>
+                  </div>
+                  <!-- Ph -->
+                  <div class="col-sm-4">
+                    <label class="form-label">Ph:</label>
+                    <input type="number" class="form-control" value="{{info.ph}}" disabled/>
+                  </div>
+                  <hr>
+                  <!--Enter Fertilizers Amount-->
+                  <!-- This function will be implemented after making yield prediction -->
+                  {%if not page_part %} 
+                  <form action="{%url 'predict_single_yield_results' info.id%}" method="POST">
+                    {%csrf_token%}
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <label class="form-label text-success">ENTER FERTILIZER AMOUNT USED:</label>
+                        <input type="number" name="fertilizer_amount" class="form-control" placeholder="Enter value in (Kgs)" required/>
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="form-label text-success">ENTER LAND SIZE <br> (Acre):</label>
+                        <input type="number" name="land_size" class="form-control" placeholder="Enter value in acre" required/>
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="form-label text-success">ENTER AMOUNT OF CROPS (Kgs):</label>
+                        <input type="number" name="amount_of_crop" class="form-control" placeholder="Enter value in (Kgs)" required/>
+                      </div>
+                    </div>
+                    <div>
+                      <button type="submit" class="btn btn-success btn-lg mt-5 mx-1 ">Predict Yield</button>
+                    </div>
+                  </form>
+                  
+                  {%else%}
+                  <!--Enter Fertilizers Amount-->
+                  <div class="row">
+                      <div class="col-sm-4">
+                        <label class="form-label text-success">FERTILIZER AMOUNT (Kgs):</label>
+                        <input type="number" value="{{yield_save_data.fertilizer_amount}}" class="form-control" disabled/>
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="form-label text-success">LAND SIZE (Acre):</label>
+                        <input type="number" value="{{land_size}}" class="form-control" disabled/>
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="form-label text-success">AMOUNT OF CROPS (Kgs):</label>
+                        <input type="number" value="{{amount_of_crop}}" class="form-control" disabled/>
+                      </div>
+                    </div>
+                  {%endif%}
+              </div>
+              
+             </div>
+             {%endfor%}
+            {%else%}
+             <div class="text-center">
+              <h3>No available information!</h3>
+              <h3 class="text-danger">Please update your profile first!</h3>
+             </div>
+            {%endif%}
+					</div>
+          <!-- Estimated yield results -->
+          {%if page_part == 'yield_predict_result' %}
+          <div class="col-md-3 d-flex align-items-center">
+            <div class="shado p-2 text-center">
+              <h3>Estimated Yield Results</h3>
+              <h5 class="text-success"><b>{{yield_predictions}} Tons</b></h5>
+            </div>
+          </div>
+          {%endif%}
+
+				</section>
+        </div>
+       <!--  ================================SUSTAINABILITY MANAGEMENT ====================== -->
+        {%elif page == 'farmer_sustain_management'%}
+         <div class="col-md-9">
+          <div class="container mt-3">
+              <div class="d-flex justify-content-between mb-5 shado">
+              <h1 class="text-success px-2">SUSTAINABILITY MANAGEMENT</h1>
+              <h3>AgriPLM</h3>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <h1><b>LIFECYCLE ASSESSMENT</b></h1>
+                <img class="w-100" src="{%static 'img/life_cycle_ass.png'%}" alt="">
+              </div>
+              <div class="col-md-6">
+              <h1><b>CARBON FOOTPRINT</b></h1>
+              <img class="w-100" src="{%static 'img/carbon_footprint.png'%}" alt="">
+            </div>
+            </div>
+            <!--d Current Sustainability practices -->
+            <div class="row row-cols-1 mt-4">
+                <h2 class="mb-4"><b>CURRENT SUSTAINABILITY PRACTICES</b></h2>
+                <!-- col-row-1 -->
+              {%for sus in sustain_management%}
+              <div class="col mt-3">
+                <div class="row">
+                  <div class="col-md-2 text-secondary shado1">
+                  <h4><b>{{sus.title}}</b></h4>
+                  </div>
+                  <div class="col-md-10 shado4" style="border-radius: 10px; color: black;">
+                    <p style="font-size: 18px;">{{sus.description}}</p>
+                  </div>
+                </div> 
+              </div>
+              {%endfor%}
+            </div>
+
+         </div>
+         </div>
+       
+        <!--  =========================================== REGULATORY COMPLIANCE======================== -->
+        {%elif page == 'regulatory_comp'%}
+        <div class="col-md-9">
+         <div class="container mt-3">
+             <div class="d-flex justify-content-between mb-5 shado">
+             <h1 class="text-success px-2">REGULATORY COMPLIANCE TRACKING</h1>
+             <h3>AgriPLM</h3>
+           </div>
+           <h1><b>List of Rwanda's current Regulatory Compliance</b></h1>
+           <div class="mt-5">
+            <div class="modal-body shado">
+              {%if regulatory%}
+              {%for regu in regulatory%}
+              <div class="shado1 p-3">
+                <h2>{{regu.title}}</h2>
+                <p>{{regu.description}}</p>
+              </div>
+              {%endfor%}
+              {%else%}
+              <h2>No available regulatory compliance</h2>
+              {%endif%}
+            </div>
+           </div>
+        </div>
+        </div>
+
+       <!-- Forth page ========== ==================USER PROFILE -->
+        {%elif page == 'user_profile'%}
+        <div class="col-md-9">
+				<section class="row mt-5">
+					<div class="col-md-2"></div>
+					<div class="col-md-7">
+            <div class="d-flex justify-content-between mb-5 shado " style="border-radius: 10px;">
+              <h1 class="text-success">FARMER PROFILE</h1>
+              <h3>AgriPLM</h3>
+            </div>
+            <div class="row">
+              <div class="col"></div>
+              <div class="col">{%include 'messages/messages.html'%}</div>
+            </div>
+            <div class="shado p-3">
+              <a href="" class="d-flex align-items-center mb-4 mb-md-0 me-md-auto link-dark text-decoration-none">
+                {%if user_profile.photo%}
+                <img src="{{user_profile.photo.url}}" alt="" width="80" height="80" class="rounded-circle me-2">
+                {%else%}
+                <img src="{%static 'img/public/11@2x.png'%}" alt="" width="80" height="80" class="rounded-circle me-2">
+                {%endif%}
+                <span class="fs-4"><i style="color: gray;">{{user.email}}</i> <br> {{user.username}}</span>
+            </a>
+						<h3 class="py-2 mt-4 text-success">PERSONAL INFORMATION</h3>
+            <hr class="text-success border-2">
+              <form>
+                <div class="row g-3">
+                    <!-- First name -->
+                  <div class="col-sm-6">
+                    <label for="firstName" class="form-label">First name:</label>
+                    <input type="text" class="form-control" value="{{user.first_name |upper}}" disabled/>
+                  </div>
+                  <!-- Last Name -->
+                  <div class="col-sm-6">
+                    <label for="lastName" class="form-label">Last name:</label>
+                    <input type="text" class="form-control" value="{{user.last_name |capfirst}}" disabled/>
+                  </div>
+                  <!-- Title -->
+                  <div class="col-12">
+                    <label for="username" class="form-label">Title:</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" value="Farmer" disabled/>
+                    </div>
+                  </div>
+                  <!-- Email -->
+                  <div class="col-12">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" value="{{user.email}}" disabled/>
+                  </div>
+                  <!-- Provinnce -->
+                  <div class="col-sm-6">
+                    <label for="province" class="form-label">Province:</label>
+                    <input type="text" class="form-control" value="{{user_profile.province |capfirst}}" disabled/>
+                  </div>
+                  <!-- District -->
+                  <div class="col-sm-6">
+                    <label for="district" class="form-label">District:</label>
+                    <input type="text" class="form-control" value="{{user_profile.district |capfirst}}" disabled/>
+                  </div>
+                  <!-- Sector -->
+                  <div class="col-sm-6">
+                    <label for="district" class="form-label">Sector:</label>
+                    <input type="text" class="form-control" value="{{user_profile.sector |capfirst}}" disabled/>
+                  </div>
+                  <!-- Cell -->
+                  <div class="col-sm-6">
+                    <label for="district" class="form-label">Cell:</label>
+                    <input type="text" class="form-control" value="{{user_profile.cell |capfirst}}" disabled/>
+                  </div>
+              </div>
+             </form>
+             <!-- update button -->
+						<button type="button" class="btn btn-success mt-3" data-bs-toggle="modal"
+							data-bs-target="#staticBackdrops">Update info</button>
+						<!-- Modal form for updating Personal information -->
+						<div class="modal fade" id="staticBackdrops" data-bs-backdrop="static" data-bs-keyboard="false"
+							tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="staticBackdropLabel">UPDATE PERSONAL INFORMATION</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<form action="{%url 'farmer_user_profile'%}" method="POST" enctype="multipart/form-data">
+										{%csrf_token%}
+										<div class="modal-body">
+											{{user_form |crispy}}
+                      {{user_profile_form |crispy}}
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Close</button>
+											<button type="submit" class="btn btn-success">Save Changes</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+            </div>
+					</div>
+
+				</section>
+
+		  	</div>
+       {%endif%}
+      </div>
+      
+    </div>
+   
+
+  </body>
+ <script src="{%static 'js/bootstrap.min.js'%}"></script>
+ <script src="{%static 'js/bootstrap.js'%}"></script>
+ <script src="{%static 'js/form-validation.js'%}"></script>
+
+
+</html>
